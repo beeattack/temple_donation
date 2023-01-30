@@ -1,0 +1,15 @@
+-> temple info
+create table templeinfo (
+temple_id bigint auto_increment,
+name nvarchar(500),
+address nvarchar (500)  
+)
+
+-> donation info 
+CREATE TABLE DONATIONINFO (    
+   ID BIGINT AUTO_INCREMENT,
+   NAME VARCHAR(400) NOT NULL,
+   DONATE_FOR VARCHAR(400) NOT NULL,
+   AMOUNT DECIMAL(12,2) NOT NULL,
+   DONATE_DATE TIMESTAMP  AS CURRENT_TIMESTAMP
+)

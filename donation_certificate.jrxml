@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="donation_certificate" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="de8820d5-be22-483d-896b-1ad7412ee552">
+	<field name="name" class="java.lang.String"/>
+	<field name="ID" class="java.lang.Long"/>
+	<field name="DONATE_FOR" class="java.lang.String"/>
+	<field name="donatedate" class="java.sql.Date"/>
+	<field name="AMOUNT" class="java.lang.Double"/>
+	<field name="AMOUNT_TH" class="java.lang.String"/>
+	<field name="donateDateTh" class="java.lang.String"/>
+	<background>
+		<band height="555" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+			<image>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="802" height="555" uuid="e7d6ebf7-40cf-4223-b031-7e28f87bab7b"/>
+				<imageExpression><![CDATA["http://localhost:8080/images/cert_bg.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<detail>
+		<band height="555" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+			<textField>
+				<reportElement x="0" y="143" width="770" height="49" uuid="ddcc8562-8c02-4b2b-b0f3-87a236a0907f"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="30" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="56" width="770" height="71" uuid="5f4476ff-6462-4d84-8cbe-b90b5901c0e9"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="48"/>
+				</textElement>
+				<text><![CDATA[อนุโมทนาบัตร]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="183" width="770" height="30" uuid="c3a0e7cf-65ef-4c76-879d-a03ceb2f10e3"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ผู้บริจาคทรัพย์ในการ " + $F{DONATE_FOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="360" width="770" height="30" uuid="ac048ebc-0f6c-4eb8-8cfc-c878abf36956"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{donateDateTh}]]></textFieldExpression>
+				<patternExpression><![CDATA["dd/MM/YYYY"]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="497" y="91" width="193" height="30" uuid="199cac8f-e9fb-4430-9962-8b3a40e6f182"/>
+				<textElement textAlignment="Right">
+					<font fontName="AngsanaUPC" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เลขที่: " + $F{ID}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="112" width="770" height="30" uuid="d1e16331-527b-4446-9e08-cce6320d28dc"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="24"/>
+				</textElement>
+				<text><![CDATA[ขออนุโมทนาแด่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="203" width="770" height="58" uuid="49ea9072-1bc3-47b3-b853-bc2a921a3e17"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="48"/>
+				</textElement>
+				<text><![CDATA[วัดดอนโฆสิตาราม]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="246" width="770" height="30" uuid="a8cf241f-75ae-4e44-afa0-2f49ecea3026"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ต. หนองบัว  อ. บ้านแพ้ว  จ. สมุทรสาคร "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="274" width="770" height="30" uuid="ce896e57-38ff-4d6d-85ea-574e4606e884"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวมเป็นเงินจำนวน " + $F{AMOUNT_TH} + " บาท"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="310" width="550" height="60" uuid="1b1ae963-910b-4daf-ab47-181dc862fb13"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ขออำนาจคุณพระศรีรัตนตรัยและบุญกุศลที่บำเพ็ญนี้ จงดลบันดาลให้ท่านเจริญด้วย อายุ วรรณะ สุขะ พละ ปฏิภาณ ธนสารสมบัติ และประสบสิ่งอันพึงปรารถนา ทุกทิพาราตรีกาลเทอญฯ"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="434" width="180" height="30" uuid="5f714f35-55e3-4a9d-906b-245e992263b9"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ผู้รับเงิน"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="435" width="180" height="30" uuid="613a130f-94b7-4194-90b4-6a21ae6cadeb"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เจ้าอาวาส"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="408" width="360" height="30" uuid="41be2cf4-b02a-4af2-a002-af69a42318b6"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA["..........................................................."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="377" y="409" width="360" height="30" uuid="27eb8a3e-f7db-4be7-a9d2-c900b293adc6"/>
+				<textElement textAlignment="Center">
+					<font fontName="AngsanaUPC" size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA["..........................................................."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

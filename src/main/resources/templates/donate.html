@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${title}"></title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/head-menu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="fontawesome-6.2.1/css/all.min.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="moment/moment.js"></script>
+    <link href="bootstrap-datepicker-thai/css/datepicker.css" rel="stylesheet">
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/locales/bootstrap-datepicker.th.js"></script>
+    <style>
+      .main-container {
+        margin-top: 4rem;
+      }
+
+      .input-group-prepend {
+        width: 110px;
+      }
+
+      .card {
+        width: 90%;
+        max-width: 500px;
+      }
+
+      .ok-donate {
+        text-align: right;
+      }
+
+      .ok-btn {
+        background-color: #1c4090;
+        color: white;
+        border: solid 1px #bbb4b4;
+      }
+
+      .modal-content {
+        widht: auto;
+        width: 100;
+      }
+
+      .modal-alert {
+        margin: auto;
+        width: -moz-fit-content;
+        width: fit-content;
+      }
+    </style>
+    <script th:inline="javascript">
+      const iframeDidLoad = () => {
+        //alert('Loaded');
+        document.getElementById("loadingCert").style.display = 'none';
+        $('#donateCert').show();
+      }
+
+      $(document).ready(function(){
+        $("#dp3").datepicker({
+          language:'th-th',
+          format:'dd/mm/yyyy',
+          autoclose: true
+        });
+
+        $("#donate_date").val(moment().add(543, 'year').format('DD/MM/YYYY'));
+
+
+        var isValid = [[${isValid}]];
+        var viewCert = [[${viewCert}]];
+        if(isValid == false){
+          $("#alertDialog").modal('show');
+        }
+        if(viewCert == true){
+          $('#donateCert').hide();
+          document.getElementById("loadingCert").style.display = 'block';
+          document.getElementById('donateCert').src = [[${certLink}]];
+          $("#resultDialog").modal('show');
+        }
+      });
+
+      const current_date = () => {
+        return moment().add(543, 'year').format('dd/mm/yyyy');
+      }
+
+
+      const validate = () => {
+        var btnOk = $("#btnOk").val();
+        var name = $("#name").val();
+        var donate_for = $("#donate_for").val();
+        var amount = $("#amount").val();
+        if(name === '' || donate_for === '' || amount === '' || amount === '0'){
+          $("#btnOk").prop('disabled' , true);
+        }
+        else{
+          $("#btnOk").prop('disabled' , false);
+        }
+      }
+
+      
+    </script>
+  </head>
+  <body>
+    <div th:replace="head-menu :: menubar"></div>
+
+    <main class="container main-container">
+      <!-- <div class="bg-light p-5 rounded" th:text="${title}"></div>  -->
+      <div class="d-flex justify-content-center h-100">
+        <div class="card">
+          <div class="card-header">
+            <h3>ร่วมทำบุญ</h3>
+          </div>
+          <div class="card-body">
+            <form
+              th:action="@{/donate}"
+              th:object="${donateInfo}"
+              method="POST"
+              modelAttribute="donateInfo"
+            >
+              <div class="input-group form-group p-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">ชื่อ-นามสกุล</span>
+                </div>
+                <input
+                  id="name"
+                  path="NAME"
+                  name="name"
+                  type="text"
+                  class="form-control"
+                  placeholder="ชื่อ-นามสกุล..."
+                  onblur="validate()"
+                />
+              </div>
+              <div class="input-group form-group p-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">เพื่อ</span>
+                </div>
+                <input
+                  id="donate_for"
+                  path="DONATE_FOR"
+                  name="donate_for"
+                  type="text"
+                  class="form-control"
+                  placeholder="เพื่อ...."
+                  onblur="validate()"
+                />
+              </div>
+              <div class="input-group form-group p-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">เป็นจำนวน</span>
+                </div>
+                <input
+                  id="amount"
+                  path="AMOUNT"
+                  name="amount"
+                  type="number"
+                  step=".01"
+                  class="form-control"
+                  placeholder="จำนวนที่บริจาค..."
+                  onblur="validate()"
+                />
+              </div>
+              <div class="input-group form-group p-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">วันที่ทำบุญ</span>
+                </div>
+                <div class="input-append date" id="dp3" data-date-format="dd/mm/yyyy">
+                  <input id="donate_date" name="donate_date" path="DONATE_FOR" class="form-control" size="16" type="text">
+                  <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+              </div>
+              <div class="ok-donate form-group p-3">
+                <input
+                  id="btnOk"
+                  type="submit"
+                  value="ตกลง"
+                  class="ok-btn btn float-right login_btn"
+                  disabled
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="alertDialog" class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content modal-alert">
+          <div class="modal-header">
+            <h5 class="modal-title" th:text="${'คำเตือน'}"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">ข้อมูลไม่ถูกต้อง กรุณากรอกข้อมูลให้ครบ</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="resultDialog" class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" th:text="${'อนุโมทนาบุญ'}"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="loadingCert" style="text-align: center; margin: auto; height: 40vh; margin-top: 8rem;"><i class="fa-solid fa-spinner fa-spin fa-8x"></i></div>
+            <iframe id="donateCert" onLoad="iframeDidLoad()" width="100%" height="450"></iframe>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

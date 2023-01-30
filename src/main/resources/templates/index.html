@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${title}"></title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/head-menu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="fontawesome-6.2.1/css/all.min.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="moment/moment.js"></script>
+    <link href="bootstrap-datepicker-thai/css/datepicker.css" rel="stylesheet">
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/locales/bootstrap-datepicker.th.js"></script>
+    <style>
+
+      .main {
+        box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        margin: 5rem auto;
+        width: 90vw;
+        height: 82vh;
+        background: 
+          radial-gradient( farthest-side at bottom left, rgb(12 113 241 / 62%), transparent ), 
+          radial-gradient( farthest-corner at bottom right, rgb(16 199 208 / 49%), transparent 400px ), 
+          radial-gradient( farthest-corner at bottom right, rgb(82 114 103 / 0%), #9baadb3d 400px );
+      }
+      .mind-text {
+        margin: auto;
+        padding: 5rem;
+      }
+
+      .bali-text {
+        color: #f4db0d;
+        text-shadow: 2px 2px 4px #644444;
+      }
+
+      .thai-text {
+        margin-top: 1.5rem;
+        padding-left: 8rem;
+        color: #696765;
+      }
+    </style>
+    <script type="text/javascript" th:inline="javascript">
+      var words = [
+      {
+        bali: 'อุฏฺฐาตา วินฺทเต ธนํ',
+        thai: 'คนขยัน ย่อมหาทรัพย์ได้'
+      },
+      {
+        bali: 'พาโล อปริณายโก',
+        thai: 'คนโง่ คนพาล ไม่ควรเป็นผู้นำ'
+      },
+      {
+        bali: 'อตฺตา หิ อตฺตโน นาโถ',
+        thai: 'ตนเป็นที่พึ่งของตน'
+      },
+      {
+        bali: 'ปญฺญาว ธเนน เสยฺโย',
+        thai: 'ปัญญาย่อมประเสริฐกว่าทรัพย์'
+      },
+      {
+        bali: 'อตฺตา หเว ชิตํ เสยฺโย',
+        thai: 'ชนะตนนั่นแหละประเสริฐกว่า'
+      },
+      {
+        bali: 'ยถาวาที ตถาการี',
+        thai: 'พูดอย่างไร ทำได้อย่างนั้น'
+      },
+      {
+        bali: 'สจฺจํ เว อมตา วาจา',
+        thai: 'คำจริงเป็นสิ่งไม่ตาย'
+      },
+      {
+        bali: 'อิณาทานํ ทุกขํ โลเก',
+        thai: 'การกู้หนี้ เป็นทุกข์ในโลก'
+      },
+      {
+        bali: 'อตฺตานํ ทมยนฺติ ปณฺฑิตา',
+        thai: 'บัญฑิตย่อมฝึกตน'
+      },
+      {
+        bali: 'ททมาโน ปิโย โหติ',
+        thai: 'ผู้ให้ย่อมเป็นที่รัก'
+      },
+      {
+        bali: 'ทุวิชาโน ปราภโว',
+        thai: 'ผู้มีความรู้ในทางชั่ว เป็นผู้เสื่อม'
+      },
+      {
+        bali: 'ครุ โหติ สคารโว',
+        thai: 'ผู้เคารพผู้อื่น ย่อมมีผู้เคารพตนเอง'
+      }
+      ]
+
+      $(document).ready(function(){
+        console.log(words);
+        var showWord = words[Math.floor(Math.random() * words.length)];
+        $("#bali-text").html(showWord.bali);
+        $("#thai-text").html(showWord.thai);
+      });
+    </script>
+    </head>
+  <body>
+    <div th:replace="head-menu :: menubar"></div>
+    <main class="container main">
+      <div class="mind-text" id="mind-text">
+        <h1 class="bali-text" id="bali-text"></h1>
+        <h3 class="thai-text" id="thai-text"></h3>
+      </div>
+    </main>
+
+    <script
+      src="js/bootstrap.bundle.min.js"
+    ></script>
+  </body>
+</html>

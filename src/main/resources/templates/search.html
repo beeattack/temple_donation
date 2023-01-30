@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${title}"></title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/head-menu.css" rel="stylesheet" />
+    <link rel="stylesheet" href="fontawesome-6.2.1/css/all.min.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="moment/moment.js"></script>
+    <link href="bootstrap-datepicker-thai/css/datepicker.css" rel="stylesheet">
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
+    <script type="text/javascript" src="bootstrap-datepicker-thai/js/locales/bootstrap-datepicker.th.js"></script>
+    <style>
+      .container {
+        margin-top: 4rem;
+      }
+      .data-table {
+        width: 100%;
+      }
+
+      tr.data-row {
+        background-color: #d4e3f3;
+      }
+
+      .data-table > thead > tr > th {
+        background-color: #ff0000
+        padding: 8px;
+      }
+
+      .data-table td {
+        padding: 5px;
+      }
+
+      .data-table, th, td {
+        border: 1px solid;
+      }
+
+      .view-cert {
+        cursor: pointer;
+      }
+
+      .navigation-pane {
+        text-align: center;
+      }
+
+      .navigate {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding-left: 5px;
+        padding-right: 5px;
+        cursor: pointer;
+      }
+
+      .navigate:hover {
+        background-color: #dddddd;
+      }
+
+      .action-cell {
+        width: 100px;
+        text-align: center;
+      }
+
+    </style>
+    <script type="text/javascript" th:inline="javascript">
+      $(document).ready(function(){
+        $("#dp3").datepicker({
+          language:'th-th',
+          format:'dd/mm/yyyy',
+          autoclose: true
+        });
+
+        // $("#donate_date").val(moment().add(543, 'year').format('DD/MM/YYYY'));
+      });
+      
+      const  goPrev = (page) => {
+        var name = [[${param.name}]];
+        var donate_date = [[${param.donate_date}]];
+        if(name === null || name === 'null') name = '';
+        if(donate_date === null || donate_date === 'null') donate_date = '';
+        window.location = '/search?page=' + page + '&name=' + name + '&donate_date=' + donate_date;
+      }
+
+      const  goNext = (page) => {
+        var name = [[${param.name}]];
+        var donate_date = [[${param.donate_date}]];
+        if(name === null || name === 'null') name = '';
+        if(donate_date === null || donate_date === 'null') donate_date = '';
+        window.location = '/search?page=' + page + '&name=' + name + '&donate_date=' + donate_date;
+      }
+
+      const iframeDidLoad = () => {
+        //alert('Loaded');
+        document.getElementById("loadingCert").style.display = 'none';
+        $('#donateCert').show();
+      }
+
+      const viewCert = (id) => {
+        $('#donateCert').hide();
+        document.getElementById("loadingCert").style.display = 'block';
+        document.getElementById('donateCert').src = 'http://localhost:8080/generatepdf/' + id;
+        $("#resultDialog").modal('show');
+      }
+    </script>
+  </head>
+  <!-- <body>
+    <h1 th:text="${title}"></h1>
+    <h2>${title}</h2>
+    <img src="images/example.jpg"/>
+    <script src="js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body> -->
+  <body>
+    <div th:replace="head-menu :: menubar"></div>
+
+    <main class="container">
+      <!-- <div class="bg-light p-5 rounded" th:text="${title}"></div> -->
+      <div>
+        <div style="margin-bottom: 8px;">
+          <form
+              th:action="@{/search}"
+              method="GET"
+            >
+            <div class="row">
+              <div class="col">
+                ชื่อ: <input type="text" name="name" class="form-control" placeholder="ชื่อผู้ทำบุญ">
+              </div>
+              <div class="col">
+                วันที่: <div class="input-append date" id="dp3" data-date-format="dd/mm/yyyy">
+                  <input id="donate_date" name="donate_date" path="DONATE_FOR" class="form-control" size="16" type="text">
+                  <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+              </div>
+              <div class="col">&nbsp;
+                <button type="submit" class="btn btn-primary" style="margin-top: 1.4rem; padding-left: 1rem; padding-right: 1rem;">ค้นหา</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <table border="1" class="data-table">
+          <thead>
+              <tr style="background-color: #1c4090; color: #ffffff; border-color: #212529; border-style: solid; border-width: 2px;">
+                  <th style="text-align: center; width: 100px; border: 1px solid;" th:text="${'ลำดับที่'}" />
+                  <th style="text-align: center;border: 1px solid; " th:text="${'ชื่อ'}" />
+                  <th style="text-align: center; width: 180px;border: 1px solid;" th:text="${'จำนวน'}" />
+                  <th style="text-align: center; width: 130px;border: 1px solid;" th:text="${'วันที่'}" />
+                  <th th:text="${'ใบอนุโมทนา'}" class="action-cell" style="border: 1px solid;" />
+              </tr>
+          </thead>
+          <tbody>
+              <tr th:each="item, iStat : ${data}"
+                  th:style="${iStat.odd}? 'background-color: #bbbbbb;': 'background-color: #ffffff' "
+                  class="data-row">
+                  <td style="text-align: center;" th:text="${item.ID}" />
+                  <td style="text-align: left;"th:text="${item.name}" />
+                  <td style="text-align: right;"><span th:text="${#numbers.formatDecimal(item.AMOUNT, 0, 'COMMA', 2, 'POINT')}" /> บาท</td>
+                  <td style="text-align: center;" th:text="${#dates.format(item.donatedate, 'dd/MM/yyyy')}" />
+                  <td class="action-cell"><i class="fa-solid fa-eye view-cert" th:onclick="|viewCert('${item.ID}')|"></i></td>
+              </tr>
+          </tbody>
+      </table>
+      <div class="navigation-pane" style="margin-top: 8px;"> 
+        <span class="navigate" th:onclick="|goPrev('${ currentPage != null && (currentPage - 1 < 1) ? 1: currentPage - 1}')|"><i class="fa-solid fa-angle-left"></i></span>
+        <span class="navigate" th:text="( ${currentPage} + 1 ) + ' of ' + ${TotalPage}"></span>
+        <span class="navigate" th:onclick="|goNext('${currentPage + 2 > TotalPage ? TotalPage : currentPage + 2}')|"><i class="fa-solid fa-angle-right"></i></span>
+      </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="resultDialog" class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" th:text="${'อนุโมทนาบุญ'}"></h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="loadingCert" style="text-align: center; margin: auto; height: 40vh; margin-top: 8rem;"><i class="fa-solid fa-spinner fa-spin fa-8x"></i></div>
+            <iframe id="donateCert" onLoad="iframeDidLoad()" width="100%" height="450"></iframe>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="js/bootstrap.bundle.min.js"
+    ></script>
+  </body>
+</html>
